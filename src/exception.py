@@ -18,11 +18,3 @@ class CustomException(Exception):
 
     def __str__(self):
         return self.error_message
-
-
-if __name__=="__main__":
-    try:
-        a = 100/0
-    except Exception as e:
-        logging.info("This is a test Exception message", str(e))
-        raise CustomException(e,sys)
