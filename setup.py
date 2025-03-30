@@ -23,3 +23,4 @@ setup(
     # install_requires = ['pandas', 'numpy', 'seaborn']   
     install_requires = get_requirements('requirements.txt')
 )
+
