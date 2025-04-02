@@ -1,5 +1,7 @@
 import os
 import sys
+import yaml
+
 
 from dataclasses import dataclass
 
@@ -41,25 +43,31 @@ class ModelTrainer:
             )
             
             models = {
-                "Random Forest": RandomForestRegressor(),
-                "CatBoost": CatBoostRegressor(verbose= False),
+                "RandomForest": RandomForestRegressor(),
+                "CatBoost": CatBoostRegressor(verbose=False),
                 "XGBoost": XGBRegressor(),
-                "Linear Regression": LinearRegression(),
-                "Gradient Boosting": GradientBoostingRegressor(),
+                "LinearRegression": LinearRegression(),
+                "GradientBoosting": GradientBoostingRegressor(),
                 "AdaBoost": AdaBoostRegressor(),
                 "KNN": KNeighborsRegressor(),
-                "Decision Tree": DecisionTreeRegressor()
+                "DecisionTree": DecisionTreeRegressor()
             }
 
+            with open("src/config/params_config.yaml", "r") as file:
+                config = yaml.safe_load(file)
+
+            params = config["models"]
+
+            print(f"params: {params}")
+
+
             model_report:dict = evaluated_model(X_train = X_train, y_train = y_train, X_test = X_test, y_test = y_test, 
-            models = models)
+            models = models,  params= params)
 
             logging.info(f"Model report: {model_report}")
 
-            best_model_score = max(sorted(model_report.values()))
-
-            best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
-            
+            best_model_name = max(model_report, key=lambda k: model_report[k]["test_score"])
+            best_model_score = model_report[best_model_name]["test_score"]
             best_model = models[best_model_name]
 
             if best_model_score < 0.6:
