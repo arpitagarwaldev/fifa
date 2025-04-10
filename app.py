@@ -1,8 +1,14 @@
-from flask import Flask, request, render_template, flash
+from flask import Flask, request, render_template, flash, jsonify
 import pandas as pd
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
 from src.exception import CustomException
 import sys
+
+# Load the dataset once when the app starts
+df = pd.read_csv('artifacts/raw.csv')
+countries = sorted(df['country'].unique())
+country_clubs = {country: sorted(df[df['country'] == country]['club'].unique()) 
+                for country in countries}
 
 
 
@@ -13,7 +19,12 @@ app = application
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home.html', countries=countries)
+
+@app.route('/get_clubs/<country>')
+def get_clubs(country):
+    clubs = country_clubs.get(country, [])
+    return jsonify(clubs)
 
 @app.route('/predict_datapoint', methods=['GET','POST'])
 def predict_datapoint():
