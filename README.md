@@ -64,12 +64,52 @@ A machine learning web application that predicts a FIFA player's market value ba
 └── templates/           # HTML templates
 ```
 
+## Exploratory Data Analysis
+
+### Dataset Overview
+- Total Players: 5,682
+- Number of Countries: 135
+- Number of Clubs: 689
+- Average Player Age: 26.3 years
+
+### Value Distribution
+- Average Player Value: $2,244,827
+- Median Player Value: $775
+- Most Valuable Player: Kylian Mbappé ($153,500,000)
+
+### Key Insights
+Top 5 attributes most correlated with player value:
+1. Reactions (0.50)
+2. Composure (0.39)
+3. Vision (0.35)
+4. Shot Power (0.32)
+5. Ball Control (0.31)
+
+### Visualizations
+
+#### Player Value Distribution
+![Value Distribution](plots/value_distribution.png)
+*The distribution of player values shows a strong right skew, indicating that while most players have relatively modest values, there are some extremely high-value outliers.*
+
+#### Age vs Player Value
+![Age vs Value](plots/age_vs_value.png)
+*Player values tend to peak in the mid-20s, with a decline in later years. However, there's significant variation at all ages.*
+
+#### Top Countries by Average Player Value
+![Top Countries](plots/top_countries.png)
+*Shows the countries producing the most valuable players on average.*
+
+#### Correlation Heatmap
+![Correlation Heatmap](plots/correlation_heatmap.png)
+*Visual representation of how different player attributes correlate with each other and with player value.*
+
 ## Model Information
 
 - Uses CatBoost Regressor for prediction
 - Features both numerical and categorical inputs
-- Trained on FIFA player dataset
+- Trained on FIFA player dataset with 5,682 players
 - Handles missing values and feature scaling
+- Key predictive features include reactions, composure, and vision
 
 ## Contributing
 
