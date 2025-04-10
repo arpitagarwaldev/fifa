@@ -36,14 +36,21 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="country">Country (text)</label>
-                                        <input type="text" class="form-control" id="country" name="country" required placeholder="e.g. Spain" value="Spain">
+                                        <label for="country">Country</label>
+                                        <select class="form-select" id="country" name="country" required>
+                                            <option value="">Select a country</option>
+                                            {% for country in countries %}
+                                            <option value="{{ country }}">{{ country }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="club">Club (text)</label>
-                                        <input type="text" class="form-control" id="club" name="club" required placeholder="e.g. Barcelona" value="Barcelona">
+                                        <label for="club">Club</label>
+                                        <select class="form-select" id="club" name="club" required disabled>
+                                            <option value="">Select a country first</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -60,17 +67,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="height">Height (float)</label>
-                                <input type="number" step="0.01" class="form-control" id="height" name="height" required placeholder="e.g. 180.5" value="180.5">
+                                <input type="number" step="0.01" class="form-control" id="height" name="height" required placeholder="180.5">
                                 <small class="text-muted">In centimeters</small>
                             </div>
                             <div class="form-group">
                                 <label for="weight">Weight (float)</label>
-                                <input type="number" step="0.01" class="form-control" id="weight" name="weight" required placeholder="e.g. 75.5" value="75.5">
+                                <input type="number" step="0.01" class="form-control" id="weight" name="weight" required placeholder="75.5">
                                 <small class="text-muted">In kilograms</small>
                             </div>
                             <div class="form-group">
                                 <label for="age">Age (integer)</label>
-                                <input type="number" step="1" class="form-control" id="age" name="age" required placeholder="e.g. 25" value="25">
+                                <input type="number" step="1" class="form-control" id="age" name="age" required placeholder="25">
                             </div>
                         </div>
                     </div>
@@ -83,11 +90,11 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="ball_control">Ball Control (0-100)</label>
-                                <input type="number" class="form-control" id="ball_control" name="ball_control" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="ball_control" name="ball_control" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="dribbling">Dribbling (0-100)</label>
-                                <input type="number" class="form-control" id="dribbling" name="dribbling" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="dribbling" name="dribbling" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -102,15 +109,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="slide_tackle">Slide Tackle (0-100)</label>
-                                <input type="number" class="form-control" id="slide_tackle" name="slide_tackle" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="slide_tackle" name="slide_tackle" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="stand_tackle">Stand Tackle (0-100)</label>
-                                <input type="number" class="form-control" id="stand_tackle" name="stand_tackle" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="stand_tackle" name="stand_tackle" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="interceptions">Interceptions (0-100)</label>
-                                <input type="number" class="form-control" id="interceptions" name="interceptions" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="interceptions" name="interceptions" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -123,23 +130,23 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="aggression">Aggression (0-100)</label>
-                                <input type="number" class="form-control" id="aggression" name="aggression" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="aggression" name="aggression" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="reactions">Reactions (0-100)</label>
-                                <input type="number" class="form-control" id="reactions" name="reactions" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="reactions" name="reactions" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="att_position">Attack Position (0-100)</label>
-                                <input type="number" class="form-control" id="att_position" name="att_position" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="att_position" name="att_position" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="vision">Vision (0-100)</label>
-                                <input type="number" class="form-control" id="vision" name="vision" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="vision" name="vision" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="composure">Composure (0-100)</label>
-                                <input type="number" class="form-control" id="composure" name="composure" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="composure" name="composure" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -154,15 +161,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="crossing">Crossing (0-100)</label>
-                                <input type="number" class="form-control" id="crossing" name="crossing" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="crossing" name="crossing" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="short_pass">Short Pass (0-100)</label>
-                                <input type="number" class="form-control" id="short_pass" name="short_pass" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="short_pass" name="short_pass" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="long_pass">Long Pass (0-100)</label>
-                                <input type="number" class="form-control" id="long_pass" name="long_pass" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="long_pass" name="long_pass" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -177,19 +184,19 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="acceleration">Acceleration (0-100)</label>
-                                <input type="number" class="form-control" id="acceleration" name="acceleration" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="acceleration" name="acceleration" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="stamina">Stamina (0-100)</label>
-                                <input type="number" class="form-control" id="stamina" name="stamina" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="stamina" name="stamina" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="strength">Strength (0-100)</label>
-                                <input type="number" class="form-control" id="strength" name="strength" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="strength" name="strength" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="balance">Balance (0-100)</label>
-                                <input type="number" class="form-control" id="balance" name="balance" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="balance" name="balance" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -204,15 +211,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="sprint_speed">Sprint Speed (0-100)</label>
-                                <input type="number" class="form-control" id="sprint_speed" name="sprint_speed" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="sprint_speed" name="sprint_speed" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="agility">Agility (0-100)</label>
-                                <input type="number" class="form-control" id="agility" name="agility" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="agility" name="agility" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="jumping">Jumping (0-100)</label>
-                                <input type="number" class="form-control" id="jumping" name="jumping" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="jumping" name="jumping" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -231,7 +238,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="shot_power">Shot Power (0-100)</label>
-                                <input type="number" class="form-control" id="shot_power" name="shot_power" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="shot_power" name="shot_power" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="finishing">Finishing (0-100)</label>
@@ -254,19 +261,19 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="curve">Curve (0-100)</label>
-                                <input type="number" class="form-control" id="curve" name="curve" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="curve" name="curve" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="fk_acc">Free Kick Accuracy (0-100)</label>
-                                <input type="number" class="form-control" id="fk_acc" name="fk_acc" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="fk_acc" name="fk_acc" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="penalties">Penalties (0-100)</label>
-                                <input type="number" class="form-control" id="penalties" name="penalties" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="penalties" name="penalties" required min="0" max="100" placeholder="70">
                             </div>
                             <div class="form-group">
                                 <label for="volleys">Volleys (0-100)</label>
-                                <input type="number" class="form-control" id="volleys" name="volleys" required min="0" max="100" value="70">
+                                <input type="number" class="form-control" id="volleys" name="volleys" required min="0" max="100" placeholder="70">
                             </div>
                         </div>
                     </div>
@@ -283,31 +290,31 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="gk_positioning">GK Positioning (0-100)</label>
-                                        <input type="number" class="form-control" id="gk_positioning" name="gk_positioning" required min="0" max="100" value="70">
+                                        <input type="number" class="form-control" id="gk_positioning" name="gk_positioning" required min="0" max="100" placeholder="70">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="gk_diving">GK Diving (0-100)</label>
-                                        <input type="number" class="form-control" id="gk_diving" name="gk_diving" required min="0" max="100" value="70">
+                                        <input type="number" class="form-control" id="gk_diving" name="gk_diving" required min="0" max="100" placeholder="70">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="gk_handling">GK Handling (0-100)</label>
-                                        <input type="number" class="form-control" id="gk_handling" name="gk_handling" required min="0" max="100" value="70">
+                                        <input type="number" class="form-control" id="gk_handling" name="gk_handling" required min="0" max="100" placeholder="70">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="gk_kicking">GK Kicking (0-100)</label>
-                                        <input type="number" class="form-control" id="gk_kicking" name="gk_kicking" required min="0" max="100" value="70">
+                                        <input type="number" class="form-control" id="gk_kicking" name="gk_kicking" required min="0" max="100" placeholder="70">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="gk_reflexes">GK Reflexes (0-100)</label>
-                                        <input type="number" class="form-control" id="gk_reflexes" name="gk_reflexes" required min="0" max="100" value="70">
+                                        <input type="number" class="form-control" id="gk_reflexes" name="gk_reflexes" required min="0" max="100" placeholder="70">
                                     </div>
                                 </div>
                             </div>
@@ -336,5 +343,40 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('country').addEventListener('change', function() {
+            const country = this.value;
+            const clubSelect = document.getElementById('club');
+            
+            if (country) {
+                // Enable club dropdown
+                clubSelect.disabled = false;
+                
+                // Fetch clubs for selected country
+                fetch(`/get_clubs/${country}`)
+                    .then(response => response.json())
+                    .then(clubs => {
+                        // Clear existing options
+                        clubSelect.innerHTML = '<option value="">Select a club</option>';
+                        
+                        // Add new options
+                        clubs.forEach(club => {
+                            const option = document.createElement('option');
+                            option.value = club;
+                            option.textContent = club;
+                            clubSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching clubs:', error);
+                        clubSelect.innerHTML = '<option value="">Error loading clubs</option>';
+                    });
+            } else {
+                // Disable and reset club dropdown
+                clubSelect.disabled = true;
+                clubSelect.innerHTML = '<option value="">Select a country first</option>';
+            }
+        });
+    </script>
 </body>
 </html>
