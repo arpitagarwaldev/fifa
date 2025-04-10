@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA Player Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-group { margin-bottom: 1rem; }
+        .card { margin-bottom: 1rem; }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="text-center mb-4">FIFA Player Attributes Predictor</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{ url_for('predict_datapoint') }}">
+            <div class="row">
+                <!-- Categorical Inputs -->
+                <div class="col-md-12 mb-4">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Basic Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="country">Country (text)</label>
+                                        <input type="text" class="form-control" id="country" name="country" required placeholder="e.g. Spain" value="Spain">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="club">Club (text)</label>
+                                        <input type="text" class="form-control" id="club" name="club" required placeholder="e.g. Barcelona" value="Barcelona">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Attributes -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Physical Attributes</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="height">Height (float)</label>
+                                <input type="number" step="0.01" class="form-control" id="height" name="height" required placeholder="e.g. 180.5" value="180.5">
+                                <small class="text-muted">In centimeters</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">Weight (float)</label>
+                                <input type="number" step="0.01" class="form-control" id="weight" name="weight" required placeholder="e.g. 75.5" value="75.5">
+                                <small class="text-muted">In kilograms</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age (integer)</label>
+                                <input type="number" step="1" class="form-control" id="age" name="age" required placeholder="e.g. 25" value="25">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Skills -->
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Technical Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="ball_control">Ball Control (0-100)</label>
+                                <input type="number" class="form-control" id="ball_control" name="ball_control" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="dribbling">Dribbling (0-100)</label>
+                                <input type="number" class="form-control" id="dribbling" name="dribbling" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Defensive Skills -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-warning">
+                            <h5 class="mb-0">Defensive Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="slide_tackle">Slide Tackle (0-100)</label>
+                                <input type="number" class="form-control" id="slide_tackle" name="slide_tackle" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="stand_tackle">Stand Tackle (0-100)</label>
+                                <input type="number" class="form-control" id="stand_tackle" name="stand_tackle" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="interceptions">Interceptions (0-100)</label>
+                                <input type="number" class="form-control" id="interceptions" name="interceptions" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mental Attributes -->
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">Mental Attributes</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="aggression">Aggression (0-100)</label>
+                                <input type="number" class="form-control" id="aggression" name="aggression" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="reactions">Reactions (0-100)</label>
+                                <input type="number" class="form-control" id="reactions" name="reactions" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="att_position">Attack Position (0-100)</label>
+                                <input type="number" class="form-control" id="att_position" name="att_position" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="vision">Vision (0-100)</label>
+                                <input type="number" class="form-control" id="vision" name="vision" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="composure">Composure (0-100)</label>
+                                <input type="number" class="form-control" id="composure" name="composure" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Passing Skills -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="mb-0">Passing Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="crossing">Crossing (0-100)</label>
+                                <input type="number" class="form-control" id="crossing" name="crossing" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="short_pass">Short Pass (0-100)</label>
+                                <input type="number" class="form-control" id="short_pass" name="short_pass" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="long_pass">Long Pass (0-100)</label>
+                                <input type="number" class="form-control" id="long_pass" name="long_pass" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Attributes -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Physical Attributes</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="acceleration">Acceleration (0-100)</label>
+                                <input type="number" class="form-control" id="acceleration" name="acceleration" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="stamina">Stamina (0-100)</label>
+                                <input type="number" class="form-control" id="stamina" name="stamina" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="strength">Strength (0-100)</label>
+                                <input type="number" class="form-control" id="strength" name="strength" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="balance">Balance (0-100)</label>
+                                <input type="number" class="form-control" id="balance" name="balance" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movement Skills -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">Movement Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="sprint_speed">Sprint Speed (0-100)</label>
+                                <input type="number" class="form-control" id="sprint_speed" name="sprint_speed" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="agility">Agility (0-100)</label>
+                                <input type="number" class="form-control" id="agility" name="agility" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="jumping">Jumping (0-100)</label>
+                                <input type="number" class="form-control" id="jumping" name="jumping" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shooting Skills -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0">Shooting Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="heading">Heading (0-100)</label>
+                                <input type="number" class="form-control" id="heading" name="heading" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="shot_power">Shot Power (0-100)</label>
+                                <input type="number" class="form-control" id="shot_power" name="shot_power" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="finishing">Finishing (0-100)</label>
+                                <input type="number" class="form-control" id="finishing" name="finishing" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="long_shots">Long Shots (0-100)</label>
+                                <input type="number" class="form-control" id="long_shots" name="long_shots" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Skills -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header bg-warning">
+                            <h5 class="mb-0">Special Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="curve">Curve (0-100)</label>
+                                <input type="number" class="form-control" id="curve" name="curve" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="fk_acc">Free Kick Accuracy (0-100)</label>
+                                <input type="number" class="form-control" id="fk_acc" name="fk_acc" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="penalties">Penalties (0-100)</label>
+                                <input type="number" class="form-control" id="penalties" name="penalties" required min="0" max="100" value="70">
+                            </div>
+                            <div class="form-group">
+                                <label for="volleys">Volleys (0-100)</label>
+                                <input type="number" class="form-control" id="volleys" name="volleys" required min="0" max="100" value="70">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goalkeeper Skills -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                            <h5 class="mb-0">Goalkeeper Skills</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="gk_positioning">GK Positioning (0-100)</label>
+                                        <input type="number" class="form-control" id="gk_positioning" name="gk_positioning" required min="0" max="100" value="70">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="gk_diving">GK Diving (0-100)</label>
+                                        <input type="number" class="form-control" id="gk_diving" name="gk_diving" required min="0" max="100" value="70">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="gk_handling">GK Handling (0-100)</label>
+                                        <input type="number" class="form-control" id="gk_handling" name="gk_handling" required min="0" max="100" value="70">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="gk_kicking">GK Kicking (0-100)</label>
+                                        <input type="number" class="form-control" id="gk_kicking" name="gk_kicking" required min="0" max="100" value="70">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="gk_reflexes">GK Reflexes (0-100)</label>
+                                        <input type="number" class="form-control" id="gk_reflexes" name="gk_reflexes" required min="0" max="100" value="70">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">Predict</button>
+            </div>
+        </form>
+
+        {% if results is not none %}
+        <div class="mt-5">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Prediction Result</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h3>Predicted Value: <span class="text-primary">{{ results }}</span></h3>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
